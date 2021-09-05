@@ -14,6 +14,7 @@ type (
 const (
 	Unknown LANG = iota + 1
 	Japanese
+	English
 )
 
 var emptyReplacer = map[string]interface{}{}
@@ -23,6 +24,8 @@ func currentLang() LANG {
 
 	switch {
 	case strings.HasPrefix(lang, "ja"):
+		return Japanese
+	case strings.HasPrefix(lang, "en"):
 		return Japanese
 	default:
 		return Unknown
@@ -63,7 +66,7 @@ func T(key string, replacer map[string]interface{}) string {
 		base = ja
 	default:
 		// TODO: en
-		base = ja
+		base = en
 	}
 
 	if result, err := temple.Execute(template(base, key), replacer); err != nil || len(result) == 0 {
